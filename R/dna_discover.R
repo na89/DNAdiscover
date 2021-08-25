@@ -44,8 +44,8 @@ dna_discover <- function(data, P = 1e-5, auc = TRUE){
     rf_p_train <- stats::predict(rf, type="prob")[,2]
     rf_pr_train <- ROCR::prediction(rf_p_train, train_data$group)
     r_auc_train <- ROCR::performance(rf_pr_train, measure = "auc")@y.values[[1]]
+    message(paste0('Test data AUC=', r_auc_train))
   }
   res <- stats::predict(rf, data, type = 'class')
-  message(paste0('Test data AUC=', r_auc_train))
   res
 }
