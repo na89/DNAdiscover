@@ -19,9 +19,9 @@
 #'
 #' @export
 
-dna_discover <- function(data, P = 1e-5, auc = TRUE){
+DNAdiscover <- function(data, P = 1e-5, auc = TRUE){
  stopifnot(is.data.frame(data))
-  load("R/sysdata.rda")
+  train_data <- DNAdiscover:::train_data
   data <- data[, colnames(data) %in% colnames(train_data)]
 
   train_data$group <- rep('bad', nrow(train_data))
@@ -39,7 +39,12 @@ dna_discover <- function(data, P = 1e-5, auc = TRUE){
   train_data <- train_data[, colnames(train_data) %in% good_features]
   train_data <- train_data[, colnames(train_data) %in% c('group', colnames(data))]
   stopifnot(all(colnames(train_data) %in% c('group', colnames(data))))
-  rf <- randomForest::randomForest(as.factor(group) ~ ., data = train_data )
+  wb <- nrow(train_data[train_data$group == 'bad', ]) / nrow(train_data)
+  wg <- 1
+  cl_weights <- c('bad' = wb, 'good' = wg)
+  rf <- randomForest::randomForest(as.factor(group) ~ .,
+                                   classwt = cl_weights,
+                                   data = train_data )
   if(auc){
     rf_p_train <- stats::predict(rf, type="prob")[,2]
     rf_pr_train <- ROCR::prediction(rf_p_train, train_data$group)
