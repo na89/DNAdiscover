@@ -71,6 +71,12 @@ You can check how quality of the predictor changes if the number of features is 
     results <- DNAdiscover(test_data[, c('lcr', 'BaseQRankSum')])
     Test data AUC=0.630644027385401
 
+
+# Discordance analysis results
+
+
+For gnomAD and AllofUs data are available [here](https://www.synapse.org/#!Synapse:syn52587531)
+
 Citation
 ==============
-https://www.biorxiv.org/content/10.1101/2022.03.24.485707v2
+E. Atkinson*, M. Artomov*, AA Loboda, HL Rehm, DG MacArthur, KJ Karczewski, BM Neale, MJ Daly. "Discordant calls across genotype discovery approaches elucidate variants with systematic errors". Genome Research, 2023. doi: 10.1101/gr.277908.123
